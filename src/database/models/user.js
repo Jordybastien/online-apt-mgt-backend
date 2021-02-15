@@ -5,7 +5,6 @@ export default (sequelize, DataTypes) => {
       names: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
-      publicId: DataTypes.STRING,
       roleId: DataTypes.INTEGER,
       apartmentId: DataTypes.INTEGER,
     },
