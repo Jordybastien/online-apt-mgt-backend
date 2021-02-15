@@ -24,6 +24,6 @@ router.post(
   recordApartment
 );
 
-router.get('/', checkToken, fetchAllApartments);
+router.get('/', fetchAllApartments);
 
 export default router;

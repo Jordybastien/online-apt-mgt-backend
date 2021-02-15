@@ -1,4 +1,4 @@
-import { check, body, validationResult } from 'express-validator';
+import { check, body, validationResult, param } from 'express-validator';
 
 export const signupValidation = [
   check('names', 'names are required')
@@ -20,11 +20,6 @@ export const signupValidation = [
     .exists()
     .isLength({ min: 6, max: 30 })
     .withMessage('Password must be at least 6 characters')
-    .not()
-    .isAlphanumeric()
-    .withMessage(
-      'Password should at least have one letter, one number and one special character'
-    )
     .trim()
     .not()
     .equals('password')
@@ -35,11 +30,6 @@ export const signupValidation = [
     .withMessage('Password must be at least 6 characters')
     .exists()
     .withMessage('Password is required')
-    .not()
-    .isAlphanumeric()
-    .withMessage(
-      'Password should at least have one letter, one number and one special character'
-    )
     .trim()
     .not()
     .equals('password')
@@ -72,6 +62,25 @@ export const loginValidation = [
 export const newAppartmentValidation = [
   check('name', 'name is required').exists().notEmpty().trim().escape(),
   check('address', 'address is required').exists().notEmpty().trim().escape(),
+  body('notifyOnReply').toBoolean(),
+];
+
+export const newRequest = [
+  check('description', 'description is required')
+    .exists()
+    .notEmpty()
+    .trim()
+    .escape(),
+  body('notifyOnReply').toBoolean(),
+];
+
+export const checkStatus = [
+  param('requestId', 'requestId param is required').notEmpty().trim(),
+  check('status', 'status is required')
+    .notEmpty()
+    .trim()
+    .isString()
+    .withMessage('status has to be a valid status'),
   body('notifyOnReply').toBoolean(),
 ];
 
