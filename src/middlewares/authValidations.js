@@ -69,6 +69,12 @@ export const loginValidation = [
   body('notifyOnReply').toBoolean(),
 ];
 
+export const newAppartmentValidation = [
+  check('name', 'name is required').exists().notEmpty().trim().escape(),
+  check('address', 'address is required').exists().notEmpty().trim().escape(),
+  body('notifyOnReply').toBoolean(),
+];
+
 export const validator = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
