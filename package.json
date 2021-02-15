@@ -13,7 +13,12 @@
     "db:migrate": "sequelize db:migrate",
     "db:migrate:reset": "sequelize db:migrate:undo:all",
     "db:seed": "sequelize db:seed:all",
-    "db:migrate:seed": "sequelize db:migrate && npm run db:seed"
+    "db:migrate:seed": "sequelize db:migrate && npm run db:seed",
+    "pm2:start": "pm2 start app.json",
+    "pm2:deploy": "npm run build && npm run pm2:start",
+    "pm2:stop": "pm2 stop app.json",
+    "pm2:destroy": "pm2 delete app.json",
+    "pm2:logs": "pm2 logs api"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.2",
