@@ -12,13 +12,19 @@ const { checkToken } = AuthMiddleware;
 
 const { isAdmin, isClient, isTechnician } = RoleValidation;
 
-const { recordRequest, fetchRequests, alterRequest } = RequestController;
+const {
+  recordRequest,
+  fetchRequests,
+  alterRequest,
+  newFetchRequests,
+} = RequestController;
 
 const router = new Router();
 
 router.post('/', checkToken, isClient, newRequest, validator, recordRequest);
 
 router.get('/', checkToken, fetchRequests);
+router.get('/all', checkToken, newFetchRequests);
 
 router.patch(
   '/:requestId',

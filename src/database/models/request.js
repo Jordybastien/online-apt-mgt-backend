@@ -10,6 +10,8 @@ export default (sequelize, DataTypes) => {
       serialNo: DataTypes.STRING,
       modelNumber: DataTypes.STRING,
       technicianNote: DataTypes.STRING,
+      clientNames: DataTypes.STRING,
+      clientAddress: DataTypes.STRING,
       userId: DataTypes.INTEGER,
     },
     {}

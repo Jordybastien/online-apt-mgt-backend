@@ -62,9 +62,30 @@ class RequestService {
   static async getAllRequests() {
     try {
       const requests = await database.Request.findAll({
-        attributes: {
-          exclude: ['userId'],
-        },
+        include: [
+          {
+            model: database.User,
+            attributes: ['names'],
+            required: true,
+            include: [
+              {
+                model: database.Apartment,
+                attributes: ['name', 'address'],
+                required: true,
+              },
+            ],
+          },
+        ],
+      });
+      return requests;
+    } catch (error) {
+      throw Error(error);
+    }
+  }
+
+  static async alteredGetAllRequests() {
+    try {
+      const requests = await database.Request.findAll({
         include: [
           {
             model: database.User,
