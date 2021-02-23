@@ -17,6 +17,7 @@ const {
   fetchRequests,
   alterRequest,
   newFetchRequests,
+  deleteRequest,
 } = RequestController;
 
 const router = new Router();
@@ -33,5 +34,7 @@ router.patch(
   isTechnician,
   alterRequest
 );
+
+router.delete('/:requestId', checkToken, deleteRequest);
 
 export default router;

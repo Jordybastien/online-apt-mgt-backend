@@ -9,6 +9,7 @@ const {
   findRequestById,
   changeRequestStatus,
   alteredGetAllRequests,
+  deleteRequestById,
 } = RequestService;
 
 const response = new Response();
@@ -77,24 +78,45 @@ class RequestController {
   }
 
   static async alterRequest(req, res) {
-    const { requestId } = req.params;
-    const { status } = req.body;
-    if (status !== 'processing' && status !== 'completed') {
-      response.setError(401, 'Invalid status');
+    try {
+      const { requestId } = req.params;
+      const { status } = req.body;
+      if (status !== 'processing' && status !== 'completed') {
+        response.setError(401, 'Invalid status');
+        return response.send(res);
+      }
+      const request = await findRequestById(requestId);
+      if (!request) {
+        response.setError(404, 'Request not found');
+        return response.send(res);
+      }
+      if (request.status === 'completed') {
+        response.setError(401, 'Request already completed');
+        return response.send(res);
+      }
+      await changeRequestStatus(requestId, req.body);
+      response.setSuccess(200, `Request status changed to ${status}`);
+      return response.send(res);
+    } catch (error) {
+      response.setError(500, error.message || 'Something went wrong');
       return response.send(res);
     }
-    const request = await findRequestById(requestId);
-    if (!request) {
-      response.setError(404, 'Request not found');
+  }
+
+  static async deleteRequest(req, res) {
+    try {
+      const { requestId } = req.params;
+      const deleted = await deleteRequestById(requestId);
+      if (deleted) {
+        response.setSuccess(200, 'Request deleted successfully');
+      } else {
+        response.setSuccess(404, 'Request not found');
+      }
+      return response.send(res);
+    } catch (error) {
+      response.setError(500, error.message || 'Something went wrong');
       return response.send(res);
     }
-    if (request.status === 'completed') {
-      response.setError(401, 'Request already completed');
-      return response.send(res);
-    }
-    await changeRequestStatus(requestId, req.body);
-    response.setSuccess(200, `Request status changed to ${status}`);
-    return response.send(res);
   }
 }
 

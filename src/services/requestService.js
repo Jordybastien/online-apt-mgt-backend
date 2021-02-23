@@ -46,6 +46,17 @@ class RequestService {
     }
   }
 
+  static async deleteRequestById(id) {
+    try {
+      const deletedRequest = await database.Request.destroy({
+        where: { id },
+      });
+      return deletedRequest;
+    } catch (error) {
+      throw Error(error);
+    }
+  }
+
   static async findRequestById(requestId) {
     try {
       const findRequest = await database.Request.findOne({

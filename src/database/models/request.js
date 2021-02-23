@@ -14,7 +14,10 @@ export default (sequelize, DataTypes) => {
       clientAddress: DataTypes.STRING,
       userId: DataTypes.INTEGER,
     },
-    {}
+    {
+      sequelize,
+      paranoid: true,
+    }
   );
 
   Request.associate = (models) => {
